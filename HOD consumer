@@ -1,8 +1,7 @@
 import ballerinax/kafka;
-//import ballerina/lang.'string;
 import ballerina/log;
 import ballerina/docker;
-//Consumer 1
+
 kafka:ConsumerConfiguration consConf = {
     bootstrapServers: "localhost:9092",
     groupId: "hod",
