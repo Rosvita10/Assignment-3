@@ -43,3 +43,45 @@ service graphql:Service /graphql on new graphql:Listener(8082){
            // io:println();
         return "Candidate registered succesfully : " + name;
     }
+/proposal
+    resource function get studentProposal(string studentNo, string background,string probStat,string ScopeLimit)  returns string {
+        //Application form object
+        propForm form = {"studentNo":studentNo,"proposal":"proposal submitted"};
+         string jsonFilePath = "./files/"+studentNo+".json";
+            json jsonContent = {"studentNo": {
+                    "@id":studentNo,
+                    "background": background,
+                    "probStat": probStat,
+                    "ScopeLimit": ScopeLimit,
+                    "app_status": "sent"
+                    
+                }};
+   //creating file 
+       checkpanic io:fileWriteJson(jsonFilePath, jsonContent);
+         byte[] serialisedMsg = form.toString().toBytes();
+
+//call producer to send messages to a topic "candidateReg" 
+             checkpanic prod->sendProducerRecord({
+                                    topic: "student_proposal",
+                                    value: serialisedMsg });
+
+             checkpanic prod->flushRecords();
+           // io:println();
+        return "proposal sent  " ;
+    }
+
+
+}
+
+public type propForm record {
+    string studentNo;
+    string proposal;
+
+};
+public type AppForm record {
+    string studentNo;
+    string name;
+    string program;
+    string contactNo;
+};
+
