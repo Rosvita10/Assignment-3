@@ -1,0 +1,19 @@
+import ballerinax/kafka;
+//import ballerina/lang.'string;
+import ballerina/log;
+
+//Consumer 1
+kafka:ConsumerConfiguration consConf = {
+    bootstrapServers: "localhost:9092",
+    groupId: "hod",
+
+    topics: ["accepted_application"],
+    pollingIntervalInMillis: 1000, 
+    //keyDeserializerType: kafka:DES_INT,
+    //valueDeserializerType: kafka:DES_STRING,
+    autoCommit: false
+};
+
+
+
+listener kafka:Listener cons = new (consConf);
