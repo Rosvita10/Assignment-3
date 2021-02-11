@@ -1,0 +1,19 @@
+import ballerina/io;
+import ballerinax/kafka;
+import ballerina/graphql;
+//import ballerina/http;
+
+
+kafka:ProducerConfiguration studentConfig = {
+    bootstrapServers: "localhost:9092",
+	clientId: "hodProducer",
+	acks: "all",
+	retryCount: 3
+};
+
+
+kafka:Producer prod = checkpanic new (studentConfig);
+
+service graphql:Service /graphql on new graphql:Listener(8085){
+
+   
