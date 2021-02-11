@@ -212,5 +212,92 @@ public function main () {
 
                     match option {
                         "1" => { 
+                        string Student_No = io:readln("Enter Student No :");
+                             string approve  = io:readln("Sanction FIE approve :");
+                        
+                             var  response = fieEndpoint->post("/graphql",{ query: " { fieApprove(Student_No:\""+Student_No+"\",approve:\""+approve+"\") }" });
+        
+                                if (response is  http:Response) {
+
+                                    var jsonResponse = response.getJsonPayload();
+
+                                    if (jsonResponse is json) {
+                                        
+                                        io:println(jsonResponse);
+
+                                    } else {
+                                        io:println("Invalid payload received:", jsonResponse.message());
+                                    }
+
+                                }
+                        
+                        }
+                        "2" => {
+
+                                string Student_No = io:readln("Enter Student No :");
+                                string FIEID  = io:readln("Enter  FIEID :");
+                            
+                                var  response = HODEndpoint->post("/graphql",{ query: " { assignFIE(Applicant_ID:\""+Student_No+"\",FIEID:\""+FIEID+"\") }" });
+            
+                                    if (response is  http:Response) {
+
+                                        var jsonResponse = response.getJsonPayload();
+
+                                        if (jsonResponse is json) {
+                                            
+                                            io:println(jsonResponse);
+
+                                        } else {
+                                            io:println("Invalid payload received:", jsonResponse.message());
+                                        }
+
+                                    }
+
+
+                         }
+                    }
+
+
+           }else if (choice == "5"){
+                io:println("WELCOME TO    HDC");
+                    io:println("******************************");
+                    io:println("1.Accept Proposal  ");
+
+                  string option = io:readln("\nEnter option\n");
+
+                    match option {
+                        "1" => { 
+                      //   accept or deny proposal
+                                 string Student_No = io:readln("Enter Student No :");
+                               
+                                 string Response  = io:readln("Enter  Response :");
+                        
+                               var  response = HDCEndpoint->post("/graphql",{ query: " { acceptProposal(Applicant_ID:\""+Student_No+"\",Response:\""+Response+"\") }" });
+        
+                                if (response is  http:Response) {
+
+                                    var jsonResponse = response.getJsonPayload();
+
+                                    if (jsonResponse is json) {
+                                        
+                                        io:println(jsonResponse);
+
+                                    } else {
+                                        io:println("Invalid payload received:", jsonResponse.message());
+                                    }
+
+                                }
+                        
+                        }
+                        "2" => { 
+                      
+                        }
+                    }
+
+
+           }
+
+
+}
                        
                              
